@@ -22,7 +22,9 @@
 
   --color-bg-app: var(--bg-app);
   --color-bg-surface: var(--bg-surface);
+  --color-bg-card: var(--bg-surface);
   --color-bg-interactive: var(--bg-interactive);
+  --color-accent-surface: rgba(124, 111, 247, 0.24);
   --color-border-soft: var(--border-soft);
   --color-border-default: var(--border-soft);
   --color-border-subtle: rgba(167, 159, 207, 0.45);
@@ -35,6 +37,7 @@
   --color-success: var(--teal);
   --color-danger: var(--danger);
   --radius-sm: 8px;
+  --radius-lg: 18px;
 }
 
 *,
@@ -67,6 +70,13 @@ body {
   width: min(1200px, 100%);
   margin: 0 auto;
   padding: 1.5rem;
+  padding-bottom: 6rem;
+}
+
+.home-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px;
   padding-bottom: 6rem;
 }
 
@@ -343,33 +353,54 @@ body {
 }
 
 .hero-section {
-  min-height: 40vh;
-  border-radius: 20px;
-  margin-bottom: 1.2rem;
-  display: grid;
-  place-items: center;
+  border-radius: var(--radius-lg);
+  margin-bottom: 32px;
+  padding: 48px 24px;
+  position: relative;
+  overflow: hidden;
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border-default);
   text-align: center;
-  background: radial-gradient(circle at top, rgba(124, 111, 247, 0.35), rgba(124, 111, 247, 0) 55%), var(--bg-surface);
-  border: 1px solid var(--border-soft);
+}
+
+.hero-background {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 0%, var(--color-accent-surface) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
 }
 
 .hero-title {
-  font-size: clamp(2rem, 8vw, 2.8rem);
+  font-size: 32px;
   letter-spacing: -0.03em;
   font-weight: 600;
+  color: var(--color-text-primary);
 }
 
 .hero-subtitle {
   width: min(680px, 92%);
-  margin: 0.5rem auto 0;
-  font-size: 0.92rem;
-  color: var(--text-muted);
+  margin: 8px auto 0;
+  font-size: 14px;
+  color: var(--color-text-secondary);
+}
+
+.game-section .section-title {
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--color-text-primary);
+  margin-bottom: 16px;
 }
 
 .game-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 14px;
 }
 
 .game-card {

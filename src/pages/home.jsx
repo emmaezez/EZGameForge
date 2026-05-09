@@ -10,12 +10,15 @@ export default function Home({
   const allGames = [...game, ...publishedGames];
 
   return (
-    <main className="page-container">
+    <main className="page-container home-page">
       <section className="hero-section">
-        <h1 className="hero-title">GameForge</h1>
-        <p className="hero-subtitle">
-          A curated hub where players discover games and creators share their work.
-        </p>
+        <div className="hero-background" aria-hidden="true" />
+        <div className="hero-content">
+          <h1 className="hero-title">GameForge</h1>
+          <p className="hero-subtitle">
+            A curated hub where players discover games and creators share their work.
+          </p>
+        </div>
       </section>
 
       <section className="game-section">
