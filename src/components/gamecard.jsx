@@ -19,6 +19,10 @@ export default function GameCard({
 
   const displayRating = ratingText || "N/A";
   const displayTags = tagsText || "";
+  const tagItems = displayTags
+    .split(/,|·/)
+    .map((tag) => tag.trim())
+    .filter(Boolean);
 
   // AI-inspired
   const liked = Array.isArray(wishlist) && wishlist.some((g) => g.id === id);
@@ -50,17 +54,19 @@ export default function GameCard({
               <span className="game-card-rating">{displayRating}</span>
             )}
           </p>
-          <p className="game-card-meta">
-            {displayTags && (
-              <span className="game-card-tags">{displayTags}</span>
-            )}
-          </p>
+          <div className="game-card-meta game-card-tags-wrap">
+            {tagItems.map((tag) => (
+              <span key={tag} className="game-card-tags">
+                {tag}
+              </span>
+            ))}
+          </div>
         </div>
       </Link>
 
       <div className="game-card-actions">
         <button
-          className="btn btn-secondary btn-wishlist"
+          className={`btn btn-secondary btn-wishlist ${liked ? "btn-wishlist-active" : ""}`}
           type="button"
           onClick={toggleWishlist}
           aria-label={liked ? "Remove from wishlist" : "Add to wishlist"}
