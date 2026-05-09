@@ -1,5 +1,5 @@
 import { Link } from "react-router";
-import { FaHeart, FaDownload } from "react-icons/fa";
+import { FaHeart } from "react-icons/fa";
 
 export default function GameCard({
   title,
@@ -46,14 +46,11 @@ export default function GameCard({
           <h3 className="game-card-title">{title}</h3>
 
           <p className="game-card-meta">
-          </p>
-
-          <p className="game-card-meta">
             {displayRating && (
               <span className="game-card-rating">{displayRating}</span>
             )}
           </p>
-          <p>
+          <p className="game-card-meta">
             {displayTags && (
               <span className="game-card-tags">{displayTags}</span>
             )}
@@ -66,8 +63,10 @@ export default function GameCard({
           className="btn btn-secondary btn-wishlist"
           type="button"
           onClick={toggleWishlist}
+          aria-label={liked ? "Remove from wishlist" : "Add to wishlist"}
+          title={liked ? "Remove from wishlist" : "Add to wishlist"}
         >
-          {liked ? <FaHeart color="red" /> : <FaHeart />} Wishlist
+          {liked ? <FaHeart color="red" /> : <FaHeart />}
         </button>
 
         <a

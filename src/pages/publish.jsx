@@ -18,6 +18,14 @@ export default function Publish({ onPublishGame }) {
   const [difficulty, setDifficulty] = useState("");
   const [rating, setRating] = useState("");
 
+  const genreOptions = ["Action", "Adventure", "RPG", "Simulation", "Strategy", "Sports", "Racing", "Puzzle", "Horror", "Fighting", "Sandbox", "Others"];
+  const artStyleOptions = ["Pixel / Retro", "Hand-drawn", "Realistic", "Minimalist", "Sci-Fi", "Fantasy", "Cartoon", "Historical", "Cozy", "Post-apocalyptic", "Others"];
+  const tagOptions = ["Story-rich", "Open World", "Exploration", "Survival", "Crafting", "Multiplayer", "VR Compatible", "Controller Support", "Others"];
+  const playerModeOptions = ["Single Player", "MMO", "PvP", "PvE", "Local Co-op", "Online Co-op", "Cross Platform", "Others"];
+  const playTimeOptions = ["Short (< 5h)", "Medium (5~20h)", "Long (20~60h)", "Very Long (60+h)", "Endless / Replayable", "Others"];
+  const difficultyOptions = ["Easy", "Normal", "Hard", "Hardcore", "Soulslike", "Others"];
+  const ratingOptions = ["Top Rated", "Most Played", "Trending", "Award-winning", "Hidden Gems", "Others"];
+
   function handleSubmit(event) {
     event.preventDefault();
 
@@ -64,6 +72,28 @@ export default function Publish({ onPublishGame }) {
     setRating("");
   }
 
+  const renderSingleChoiceGroup = (label, options, selected, setter) => (
+    <div className="form-field">
+      <span className="form-label">{label}</span>
+      <div className="publish-chip-group">
+        {options.map((option) => {
+          const active = selected === option;
+          return (
+            <button
+              key={option}
+              type="button"
+              className={`publish-chip ${active ? "publish-chip-active" : ""}`}
+              onClick={() => setter(active ? "" : option)}
+              aria-pressed={active}
+            >
+              {option}
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+
   return (
     <main className="page-container">
       <section>
@@ -92,10 +122,11 @@ export default function Publish({ onPublishGame }) {
             </div>
 
             <div className="form-field">
-              <label className="form-label">Game Publish Date</label>
+              <label htmlFor="publish-month" className="form-label">Game Publish Date</label>
 
               <div className="form-date-group">
                 <input
+                  id="publish-month"
                   type="text"
                   className="form-input-date"
                   placeholder="MM"
@@ -105,6 +136,7 @@ export default function Publish({ onPublishGame }) {
                 />
                 <span className="date-slash">/</span>
                 <input
+                  id="publish-day"
                   type="text"
                   className="form-input-date"
                   placeholder="DD"
@@ -114,6 +146,7 @@ export default function Publish({ onPublishGame }) {
                 />
                 <span className="date-slash">/</span>
                 <input
+                  id="publish-year"
                   type="text"
                   className="form-input-date-year"
                   placeholder="YYYY"
@@ -159,9 +192,10 @@ export default function Publish({ onPublishGame }) {
 
           <div className="form-row form-media-row">
             <div className="form-field">
-              <label className="form-label">Image</label>
+              <label htmlFor="game-image" className="form-label">Image</label>
 
               <input
+                id="game-image"
                 type="file"
                 accept="image/*"
                 onChange={(event) => {
@@ -194,140 +228,13 @@ export default function Publish({ onPublishGame }) {
           </div>
 
           <div className="form-row form-select-row">
-            <div className="form-field">
-              <label className="form-label">Genre</label>
-              <select
-                className="select-box"
-                value={genre}
-                onChange={(e) => setGenre(e.target.value)}
-              >
-                <option value="">Select...</option>
-                <option value="Action">Action</option>
-                <option value="Adventure">Adventure</option>
-                <option value="RPG">RPG</option>
-                <option value="Simulation">Simulation</option>
-                <option value="Strategy">Strategy</option>
-                <option value="Sports">Sports</option>
-                <option value="Racing">Racing</option>
-                <option value="Puzzle">Puzzle</option>
-                <option value="Horror">Horror</option>
-                <option value="Fighting">Fighting</option>
-                <option value="Sandbox">Sandbox</option>
-                <option value="Others">Others</option>
-              </select>
-            </div>
-
-            <div className="form-field">
-              <label className="form-label">Art Style</label>
-              <select
-                className="select-box"
-                value={artStyle}
-                onChange={(e) => setArtStyle(e.target.value)}
-              >
-                <option value="">Select...</option>
-                <option value="Pixel / Retro">Pixel / Retro</option>
-                <option value="Hand-drawn">Hand-drawn</option>
-                <option value="Realistic">Realistic</option>
-                <option value="Minimalist">Minimalist</option>
-                <option value="Sci-Fi">Sci-Fi</option>
-                <option value="Fantasy">Fantasy</option>
-                <option value="Cartoon">Cartoon</option>
-                <option value="Historical">Historical</option>
-                <option value="Cozy">Cozy</option>
-                <option value="Post-apocalyptic">Post-apocalyptic</option>
-                <option value="Others">Others</option>
-              </select>
-            </div>
-
-            <div className="form-field">
-              <label className="form-label">Tags / Features</label>
-              <select
-                className="select-box"
-                value={tag}
-                onChange={(e) => setTag(e.target.value)}
-              >
-                <option value="">Select...</option>
-                <option value="Story-rich">Story-rich</option>
-                <option value="Open World">Open World</option>
-                <option value="Exploration">Exploration</option>
-                <option value="Survival">Survival</option>
-                <option value="Crafting">Crafting</option>
-                <option value="Multiplayer">Multiplayer</option>
-                <option value="VR Compatible">VR Compatible</option>
-                <option value="Controller Support">Controller Support</option>
-                <option value="Others">Others</option>
-              </select>
-            </div>
-
-            <div className="form-field">
-              <label className="form-label">Player Mode</label>
-              <select
-                className="select-box"
-                value={playerMode}
-                onChange={(e) => setPlayerMode(e.target.value)}
-              >
-                <option value="">Select...</option>
-                <option value="Single Player">Single Player</option>
-                <option value="MMO">MMO</option>
-                <option value="PvP">PvP</option>
-                <option value="PvE">PvE</option>
-                <option value="Local Co-op">Local Co-op</option>
-                <option value="Online Co-op">Online Co-op</option>
-                <option value="Cross Platform">Cross Platform</option>
-                <option value="Others">Others</option>
-              </select>
-            </div>
-
-            <div className="form-field">
-              <label className="form-label">Playtime</label>
-              <select
-                className="select-box"
-                value={playTime}
-                onChange={(e) => setPlayTime(e.target.value)}
-              >
-                <option value="">Select...</option>
-                <option value="Short (< 5h)">Short (&lt; 5h)</option>
-                <option value="Medium (5~20h)">Medium (5~20h)</option>
-                <option value="Long (20~60h)">Long (20~60h)</option>
-                <option value="Very Long (60+h)">Very Long (60+h)</option>
-                <option value="Endless / Replayable">Endless / Replayable</option>
-                <option value="Others">Others</option>
-              </select>
-            </div>
-
-            <div className="form-field">
-              <label className="form-label">Difficulty</label>
-              <select
-                className="select-box"
-                value={difficulty}
-                onChange={(e) => setDifficulty(e.target.value)}
-              >
-                <option value="">Select...</option>
-                <option value="Easy">Easy</option>
-                <option value="Normal">Normal</option>
-                <option value="Hard">Hard</option>
-                <option value="Hardcore">Hardcore</option>
-                <option value="Soulslike">Soulslike</option>
-                <option value="Others">Others</option>
-              </select>
-            </div>
-
-            <div className="form-field">
-              <label className="form-label">Rating / Popularity</label>
-              <select
-                className="select-box"
-                value={rating}
-                onChange={(e) => setRating(e.target.value)}
-              >
-                <option value="">Select...</option>
-                <option value="Top Rated">Top Rated</option>
-                <option value="Most Played">Most Played</option>
-                <option value="Trending">Trending</option>
-                <option value="Award-winning">Award-winning</option>
-                <option value="Hidden Gems">Hidden Gems</option>
-                <option value="Others">Others</option>
-              </select>
-            </div>
+            {renderSingleChoiceGroup("Genre", genreOptions, genre, setGenre)}
+            {renderSingleChoiceGroup("Art Style", artStyleOptions, artStyle, setArtStyle)}
+            {renderSingleChoiceGroup("Tags / Features", tagOptions, tag, setTag)}
+            {renderSingleChoiceGroup("Player Mode", playerModeOptions, playerMode, setPlayerMode)}
+            {renderSingleChoiceGroup("Playtime", playTimeOptions, playTime, setPlayTime)}
+            {renderSingleChoiceGroup("Difficulty", difficultyOptions, difficulty, setDifficulty)}
+            {renderSingleChoiceGroup("Rating / Popularity", ratingOptions, rating, setRating)}
 
             {/* <div className="form-field form-field-add">
               <button type="button" className="add-button">

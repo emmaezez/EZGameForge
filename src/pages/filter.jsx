@@ -218,7 +218,6 @@ export default function Filters({
         <p className="page-subtitle">
           Search by title, tags, developer, or description
         </p>
-        // AI generated //
         <form
           className="search-form"
           role="search"
@@ -240,7 +239,6 @@ export default function Filters({
           <button type="submit" className="search-button" aria-label="Search">Search</button>
         </form>
       </section>
-        // AI generated //
       <section className={`filter-section ${showFilters ? "filters-open" : ""}`}>
         <div className="filter-header">
           <button

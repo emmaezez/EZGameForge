@@ -14,7 +14,7 @@ export default function NavBar() {
 
         {/* Logo */}
         <NavLink to="/" className="nav-logo">
-          GameForge
+          GameForge <span className="nav-logo-dot" aria-hidden="true" />
         </NavLink>
 
         {/* Mobile Menu Button */}
@@ -64,14 +64,20 @@ export default function NavBar() {
             Settings
           </NavLink> */}
 
-          <NavLink
-            to="/login-page"
-            className={({ isActive }) =>
-              "nav-link" + (isActive ? " nav-link-active" : "")
-            }
-          >
-            Login/Signup
-          </NavLink>
+          <div className="nav-auth-group">
+            <NavLink
+              to="/login-page"
+              className="nav-link nav-auth-ghost"
+            >
+              Login
+            </NavLink>
+            <NavLink
+              to="/login-page?mode=signup"
+              className="nav-link nav-auth-filled"
+            >
+              Signup
+            </NavLink>
+          </div>
         </div>
       </nav>
     </header>
