@@ -10,17 +10,101 @@
 // Cite the template and imports from firebase
 // firebase.google.com/docs/auth/web/google-signin
 
+import { useEffect, useState } from "react";
 import { Link } from "react-router";
+import { collection, getDocs, query, where } from "firebase/firestore";
+
 import WishlistItem from "../components/wishlist-item.jsx";
 import { useAuth } from "../context/AuthContext.jsx";
+import { db } from "../firebase";
 
 // Template usage Citation: useAuth() is template driven with 
 // human setup on firebase's console and human debugging code to check it works
+
+// Firestore docs in `games` should store the author's uid under one of these fields
+// so we can fetch that user's publishes (static game.js seeds have string `developer`,
+// not uid—only cloud documents with a uid field appear here).
+
+const GAME_CREATOR_FIELDS = [
+  "publisherUid",
+  "creatorUid",
+  "userId",
+  "creatorId",
+  "developerId",
+  "publisherId",
+];
+
+function buildPublishMeta(game) {
+  const parts = [game.genre, game.artStyle, game.tag, game.playerMode]
+    .filter((v) => v && String(v).trim() !== "");
+  return parts.length ? parts.join(" · ") : "";
+}
+
+function getPublishedTitle(game) {
+  return game.title || game.name || "Untitled";
+}
+
+function getPublishedThumb(game) {
+  return (
+    game.imageSrc || "/assets/default-user-game.png"
+  );
+}
 
 // This component expects 'wishlist' data and a 'removeFromWishlist' function 
 // to be passed in as props from a parent component that manages that state.
 export default function Account({ wishlist, removeFromWishlist }) {
   const { user } = useAuth(); // This uses the firebase logic utilized with help from template
+
+  const [myGames, setMyGames] = useState([]);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    if (!user?.uid) {
+      Promise.resolve().then(() => {
+        if (!cancelled) setMyGames([]);
+      });
+      return () => {
+        cancelled = true;
+      };
+    }
+
+    const loadMine = async () => {
+      const byId = new Map();
+      try {
+        const uid = user.uid;
+        await Promise.all(
+          GAME_CREATOR_FIELDS.map(async (field) => {
+            try {
+              const qRef = query(
+                collection(db, "games"),
+                where(field, "==", uid)
+              );
+              const snapshot = await getDocs(qRef);
+              snapshot.docs.forEach((docSnap) => {
+                const data = docSnap.data();
+                byId.set(docSnap.id, { id: docSnap.id, ...data });
+              });
+            } catch {
+              /* ignore per-field failures (indexes, legacy schema) */
+            }
+          })
+        );
+        if (!cancelled) {
+          setMyGames(Array.from(byId.values()));
+        }
+      } catch (error) {
+        console.error("Failed to fetch my published games", error);
+        if (!cancelled) setMyGames([]);
+      }
+    };
+
+    loadMine();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [user?.uid]);
 
   // human driven logic for mapping wishlist components like adding or removing items
   return (
@@ -63,6 +147,53 @@ export default function Account({ wishlist, removeFromWishlist }) {
             </p>
           )}
         </section>
+
+        {user && (
+          <section className="account-published-section">
+            <h2 className="section-title">My Published Games</h2>
+
+            {myGames.length === 0 ? (
+              <p className="account-published-empty">
+                You haven&apos;t published any games yet.
+              </p>
+            ) : (
+              <ul className="account-published-list">
+                {myGames.map((game) => {
+                  const thumb = getPublishedThumb(game);
+                  const title = getPublishedTitle(game);
+                  const meta = buildPublishMeta(game);
+                  const when =
+                    game.publishDate ||
+                    game.publish_date ||
+                    (game.createdAt &&
+                    typeof game.createdAt.toDate === "function"
+                      ? game.createdAt.toDate().toLocaleDateString()
+                      : "") ||
+                    "";
+
+                  return (
+                    <li key={game.id} className="account-published-item">
+                      <img
+                        src={thumb}
+                        alt={game.imageAlt || title}
+                        className="account-published-thumb"
+                      />
+                      <div className="account-published-main">
+                        <p className="account-published-title">{title}</p>
+                        {when ? (
+                          <p className="account-published-date">{when}</p>
+                        ) : null}
+                        {meta ? (
+                          <p className="account-published-tags">{meta}</p>
+                        ) : null}
+                      </div>
+                    </li>
+                  );
+                })}
+              </ul>
+            )}
+          </section>
+        )}
 
         {/* --- Wishlist Section (from the original wishlist version) --- */}
         {/* Only show the wishlist section if the user is logged in, or always show it depending on your app logic */}

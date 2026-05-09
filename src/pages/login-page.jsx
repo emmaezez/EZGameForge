@@ -42,7 +42,7 @@ export default function LoginPage() {
   // The return statement is human driven with a template for button
   return (
     <main className="page-container">
-      <section className="settings-coming-soon">
+      <section className="settings-coming-soon login-signup-panel">
         <h1 className="page-title">Login / Signup</h1>
         {user ? (
           <>
