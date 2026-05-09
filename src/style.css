@@ -421,6 +421,7 @@ body {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   gap: 14px;
+  align-items: stretch;
 }
 
 .game-card {
@@ -431,6 +432,7 @@ body {
   cursor: pointer;
   display: flex;
   flex-direction: column;
+  height: 100%;
   transition: border-color 0.15s ease, transform 0.15s ease;
 }
 
@@ -444,6 +446,8 @@ body {
   text-decoration: none;
   display: flex;
   flex-direction: column;
+  flex: 1;
+  min-height: 0;
 }
 
 .game-card-image {
@@ -454,6 +458,10 @@ body {
 }
 
 .game-card-info {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
   padding: 10px 14px 12px 14px;
 }
 
@@ -481,13 +489,18 @@ body {
   display: flex;
   gap: 4px;
   flex-wrap: wrap;
+  flex: 1;
+  align-items: flex-start;
+  align-content: flex-start;
   margin-top: 8px;
   margin-bottom: 10px;
 }
 
 .game-card-tags {
-  font-size: 10px;
-  padding: 2px 8px;
+  font-size: 11px;
+  padding: 3px 9px;
+  line-height: 1;
+  height: auto;
   border-radius: var(--radius-pill);
   background: var(--color-accent-surface);
   color: var(--color-accent);
@@ -499,7 +512,8 @@ body {
   align-items: center;
   justify-content: space-between;
   gap: 8px;
-  padding: 0 14px 12px;
+  margin-top: auto;
+  padding: 12px 14px 12px 14px;
 }
 
 .btn-wishlist {
