@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>GameForge — Publish</title>
+  <link rel="stylesheet" href="css/gameforge.css" />
+</head>
+<body>
+
+  <!-- Global navigation -->
+  <header class="nav-bar">
+    <nav class="nav-container">
+      <a class="nav-logo" href="index.html">GameForge</a>
+
+      <div class="nav-links">
+        <a href="filter.html">Filters</a>
+        <a href="#" class="nav-link-active">Publish</a>
+        <a href="account.html">Account</a>
+        <a href="settings.html">Settings</a>
+      </div>
+
+      <button class="nav-toggle" aria-label="Menu">☰</button>
+    </nav>
+  </header>
+
+  <!-- Main content container -->
+  <main class="main-container">
+
+    <!-- Page title area -->
+    <section class="page-header">
+      <h1 class="page-title">Publish a Game</h1>
+      <p class="page-subtitle">Fill in the details below and publish to PlayForge.</p>
+    </section>
+
+    <!-- Form card -->
+    <section class="content-section">
+      <form class="publish-form">
+
+        <!-- Game name + Date -->
+        <div class="form-row">
+          <div class="form-field">
+            <label for="game-name" class="form-label">Game Name</label>
+            <input id="game-name" type="text" class="form-input" placeholder="Enter game name" required />
+          </div>
+
+          <div class="form-field">
+            <label class="form-label">Game Publish Date</label>
+
+            <div class="form-date-group">
+              <input type="text" class="form-input-date" placeholder="MM" maxlength="2" />
+              <span class="date-slash">/</span>
+              <input type="text" class="form-input-date" placeholder="DD" maxlength="2" />
+              <span class="date-slash">/</span>
+              <input type="text" class="form-input-date-year" placeholder="YYYY" maxlength="4" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Description -->
+        <div class="form-row">
+          <div class="form-field">
+            <label for="desc" class="form-label">Description</label>
+            <textarea id="desc" rows="5" class="form-textarea" placeholder="Describe your game..."></textarea>
+          </div>
+        </div>
+
+        <!-- URL -->
+        <div class="form-row">
+          <div class="form-field">
+            <label for="url" class="form-label">Official Website / Store URL</label>
+            <input id="url" type="url" class="form-input" placeholder="https://example.com/game" />
+          </div>
+        </div>
+
+        <!-- Upload: Image & Video (display only) -->
+        <div class="form-row form-media-row">
+
+          <div class="form-field">
+            <label class="form-label">Image</label>
+            <button type="button" class="upload-box">
+              <span class="upload-plus">+</span>
+              <span>Upload Image</span>
+            </button>
+          </div>
+
+          <div class="form-field">
+            <label class="form-label">Video</label>
+            <button type="button" class="upload-box">
+              <span class="upload-plus">+</span>
+              <span>Upload Video</span>
+            </button>
+          </div>
+
+        </div>
+
+        <!-- Fake select buttons -->
+        <div class="form-row form-select-row">
+
+          <div class="form-field">
+            <label class="form-label">Genre</label>
+            <button type="button" class="select-box">Select ▾</button>
+          </div>
+
+          <div class="form-field">
+            <label class="form-label">Art Style</label>
+            <button type="button" class="select-box">Select ▾</button>
+          </div>
+
+          <div class="form-field">
+            <label class="form-label">Special Tags</label>
+            <button type="button" class="select-box">Select ▾</button>
+          </div>
+
+          <div class="form-field">
+            <label class="form-label">Player Mode</label>
+            <button type="button" class="select-box">Select ▾</button>
+          </div>
+
+          <div class="form-field">
+            <label class="form-label">Play Time</label>
+            <button type="button" class="select-box">Select ▾</button>
+          </div>
+
+          <div class="form-field">
+            <label class="form-label">Difficulty Level</label>
+            <button type="button" class="select-box">Select ▾</button>
+          </div>
+
+          <div class="form-field form-field-add">
+            <button type="button" class="add-button">+</button>
+          </div>
+
+        </div>
+
+        <!-- Submit -->
+        <div class="form-row form-actions">
+          <button type="submit" class="btn">Save &amp; Publish</button>
+        </div>
+
+      </form>
+    </section>
+
+  </main>
+
+</body>
+</html>

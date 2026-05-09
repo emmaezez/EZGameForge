@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>GameForge — Search & Filter</title>
+  <link rel="stylesheet" href="css/gameforge.css" />
+</head>
+<body>
+
+  <!-- Global navigation -->
+  <header class="nav-bar">
+    <nav class="nav-container">
+      <a class="nav-logo" href="index.html">GameForge</a>
+
+      <div class="nav-links">
+        <a href="filter.html" class="nav-link-active">Filters</a>
+        <a href="publish.html">Publish</a>
+        <a href="account.html">Account</a>
+        <a href="settings.html">Settings</a>
+      </div>
+
+      <button class="nav-toggle" aria-label="Menu">☰</button>
+    </nav>
+  </header>
+
+  <!-- Main content -->
+  <main class="main-container">
+
+    <!-- Page header + search -->
+    <section class="page-header">
+      <h1 class="page-title">Find Games</h1>
+      <p class="page-subtitle">Search by keywords or categories:</p>
+
+      <form class="search-form" role="search" aria-label="Search games">
+        <input
+          class="search-input"
+          type="search"
+          placeholder="e.g. HALO, StreetFighters"
+          aria-label="Search input"
+        />
+        <button
+          type="button"
+          class="search-button"
+          aria-label="Search"
+        >🔍</button>
+      </form>
+    </section>
+
+    <!-- Filter section -->
+    <section class="filter-section">
+      <div class="filter-header">
+        <span class="filter-title">Filter By</span>
+      </div>
+
+      <div class="filter-list">
+
+        <!-- Genre -->
+        <div class="filter-card" role="group" aria-labelledby="filter-genre">
+          <h3 id="filter-genre" class="filter-card-title">Genre</h3>
+          <div class="filter-card-body">
+            <label><input type="checkbox" /> Action</label>
+            <label><input type="checkbox" /> Adventure</label>
+            <label><input type="checkbox" /> RPG</label>
+            <label><input type="checkbox" /> Simulation</label>
+            <label><input type="checkbox" /> Strategy</label>
+            <label><input type="checkbox" /> Sports</label>
+            <label><input type="checkbox" /> Racing</label>
+            <label><input type="checkbox" /> Puzzle</label>
+            <label><input type="checkbox" /> Horror</label>
+            <label><input type="checkbox" /> Fighting</label>
+            <label><input type="checkbox" /> Sandbox</label>
+            <label><input type="checkbox" /> Others</label>
+          </div>
+        </div>
+
+        <!-- Art style -->
+        <div class="filter-card" role="group" aria-labelledby="filter-art">
+          <h3 id="filter-art" class="filter-card-title">Art Style</h3>
+          <div class="filter-card-body">
+            <label><input type="checkbox" /> Pixel / Retro</label>
+            <label><input type="checkbox" /> Hand-drawn</label>
+            <label><input type="checkbox" /> Realistic</label>
+            <label><input type="checkbox" /> Minimalist</label>
+            <label><input type="checkbox" /> Sci-Fi</label>
+            <label><input type="checkbox" /> Fantasy</label>
+            <label><input type="checkbox" /> Cartoon</label>
+            <label><input type="checkbox" /> Historical</label>
+            <label><input type="checkbox" /> Cozy</label>
+            <label><input type="checkbox" /> Post-apocalyptic</label>
+            <label><input type="checkbox" /> Others</label>
+          </div>
+        </div>
+
+        <!-- Player mode -->
+        <div class="filter-card" role="group" aria-labelledby="filter-mode">
+          <h3 id="filter-mode" class="filter-card-title">Player Mode</h3>
+          <div class="filter-card-body">
+            <label><input type="checkbox" /> Single Player</label>
+            <label><input type="checkbox" /> MMO</label>
+            <label><input type="checkbox" /> PvP</label>
+            <label><input type="checkbox" /> PvE</label>
+            <label><input type="checkbox" /> Local Co-op</label>
+            <label><input type="checkbox" /> Online Co-op</label>
+            <label><input type="checkbox" /> Cross Platform</label>
+            <label><input type="checkbox" /> Others</label>
+          </div>
+        </div>
+
+        <!-- Tags / Features -->
+        <div class="filter-card" role="group" aria-labelledby="filter-tags">
+          <h3 id="filter-tags" class="filter-card-title">Tags / Features</h3>
+          <div class="filter-card-body">
+            <label><input type="checkbox" /> Story-rich</label>
+            <label><input type="checkbox" /> Open World</label>
+            <label><input type="checkbox" /> Exploration</label>
+            <label><input type="checkbox" /> Survival</label>
+            <label><input type="checkbox" /> Crafting</label>
+            <label><input type="checkbox" /> Multiplayer</label>
+            <label><input type="checkbox" /> VR Compatible</label>
+            <label><input type="checkbox" /> Controller Support</label>
+            <label><input type="checkbox" /> Others</label>
+          </div>
+        </div>
+
+        <!-- Playtime -->
+        <div class="filter-card" role="group" aria-labelledby="filter-playtime">
+          <h3 id="filter-playtime" class="filter-card-title">Playtime</h3>
+          <div class="filter-card-body">
+            <label><input type="checkbox" /> Short (&lt; 5h)</label>
+            <label><input type="checkbox" /> Medium (5–20h)</label>
+            <label><input type="checkbox" /> Long (20–60h)</label>
+            <label><input type="checkbox" /> Very Long (60+h)</label>
+            <label><input type="checkbox" /> Endless / Replayable</label>
+            <label><input type="checkbox" /> Others</label>
+          </div>
+        </div>
+
+        <!-- Release date -->
+        <div class="filter-card" role="group" aria-labelledby="filter-release">
+          <h3 id="filter-release" class="filter-card-title">Release Date</h3>
+          <div class="filter-card-body">
+            <label><input type="checkbox" /> New (Past Year)</label>
+            <label><input type="checkbox" /> Recent (3–4 Years)</label>
+            <label><input type="checkbox" /> Classic (5+ Years)</label>
+            <label><input type="checkbox" /> Remake / Remaster</label>
+            <label><input type="checkbox" /> Early Access</label>
+            <label><input type="checkbox" /> Upcoming</label>
+            <label><input type="checkbox" /> Others</label>
+          </div>
+        </div>
+
+        <!-- Difficulty -->
+        <div class="filter-card" role="group" aria-labelledby="filter-difficulty">
+          <h3 id="filter-difficulty" class="filter-card-title">Difficulty</h3>
+          <div class="filter-card-body">
+            <label><input type="checkbox" /> Easy</label>
+            <label><input type="checkbox" /> Normal</label>
+            <label><input type="checkbox" /> Hard</label>
+            <label><input type="checkbox" /> Hardcore</label>
+            <label><input type="checkbox" /> Soulslike</label>
+            <label><input type="checkbox" /> Others</label>
+          </div>
+        </div>
+
+        <!-- Rating / Popularity -->
+        <div class="filter-card" role="group" aria-labelledby="filter-rating">
+          <h3 id="filter-rating" class="filter-card-title">Rating / Popularity</h3>
+          <div class="filter-card-body">
+            <label><input type="checkbox" /> Top Rated</label>
+            <label><input type="checkbox" /> Most Played</label>
+            <label><input type="checkbox" /> Trending</label>
+            <label><input type="checkbox" /> Award-winning</label>
+            <label><input type="checkbox" /> Hidden Gems</label>
+            <label><input type="checkbox" /> Others</label>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="filter-actions">
+        <button type="reset" class="btn">Reset</button>
+        <button type="button" class="btn">Save &amp; Apply</button>
+      </div>
+    </section>
+
+    <!-- Empty state -->
+    <section class="empty-state">
+      <p>Nothing has been entered yet!</p>
+    </section>
+
+  </main>
+
+</body>
+</html>

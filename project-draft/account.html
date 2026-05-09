@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="author" content="Emma Zhang, Alan Hu, Garvin Wang, Alfred He" />
+  <meta name="description" content="GameForge - Account page" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>GameForge — Account</title>
+
+  <link rel="icon" type="image/png" href="img/icon.png" />
+  <link rel="stylesheet" href="css/gameforge.css" />
+</head>
+
+<body>
+
+  <!-- Global navigation -->
+  <header class="nav-bar">
+    <nav class="nav-container">
+      <a class="nav-logo" href="index.html">GameForge</a>
+
+      <div class="nav-links">
+        <a href="filter.html">Filters</a>
+        <a href="publish.html">Publish</a>
+        <a href="account.html" class="nav-link-active">Account</a>
+        <a href="settings.html">Settings</a>
+      </div>
+
+      <button class="nav-toggle" aria-label="Menu">☰</button>
+    </nav>
+  </header>
+
+  <!-- Main content -->
+  <main class="main-container account-page">
+
+    <!-- 上半部分：用户资料 -->
+    <section class="account-profile-section">
+      <h1 class="page-title">Account</h1>
+
+      <div class="account-profile-card">
+        <!-- <div class="account-avatar-wrapper">
+          <img src="img/default-avatar.png" alt="User avatar" class="account-avatar" />
+        </div> -->
+
+        <div class="account-info">
+          <p class="account-name">Player123</p>
+          <p class="account-email">player123@example.com</p>
+
+          <p class="account-role"><span class="account-label">Role:</span> Player</p>
+
+          <p class="account-description">
+            This is your profile description. You can introduce yourself as a player or developer,
+            list your interests, or share what kind of games you enjoy.
+          </p>
+
+          <a href="profile-edit.html" class="btn account-edit-button">Edit Profile</a>
+          <!-- <button type="button" class="btn account-edit-button">Edit Profile</button> -->
+        </div>
+      </div>
+    </section>
+
+    <!-- 下半部分：Wishlist -->
+    <section class="account-wishlist-section">
+      <h2 class="section-title">Wishlist</h2>
+
+      <div class="wishlist-list">
+
+        <!-- TEMPLATE wishlist 项（保持一个即可） -->
+        <a href="gamedetail-example.html" class="wishlist-item">
+          <img src="img/halo.jpeg" alt="HALO cover" class="wishlist-item-image" />
+
+          <div class="wishlist-item-main">
+            <h3 class="wishlist-item-title">HALO</h3>
+            <p class="wishlist-item-meta">By Example Studio · Rating: ★★★★☆</p>
+            <p class="wishlist-item-description">
+              A sci-fi FPS featuring large-scale battles, co-op campaigns, and competitive multiplayer modes.
+            </p>
+          </div>
+        </a>
+
+        <!-- 空状态 placeholder（如果没有 wishlist 游戏就显示） -->
+        <div class="wishlist-empty">
+          <p>You haven't added any games to your wishlist yet.</p>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+</body>
+</html>

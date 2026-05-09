@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="author" content="Emma Zhang, Alan Hu, Garvin Wang, Alfred He" />
+  <meta name="description" content="GameForge - Edit profile" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>GameForge — Edit Profile</title>
+
+  <link rel="icon" type="image/png" href="img/icon.png" />
+  <link rel="stylesheet" href="css/gameforge.css" />
+</head>
+
+<body>
+
+  <!-- Global navigation -->
+  <header class="nav-bar">
+    <nav class="nav-container">
+      <a class="nav-logo" href="index.html">GameForge</a>
+
+      <div class="nav-links">
+        <a href="filter.html">Filters</a>
+        <a href="publish.html">Publish</a>
+        <a href="account.html" class="nav-link-active">Account</a>
+        <a href="settings.html">Settings</a>
+      </div>
+
+      <button class="nav-toggle" aria-label="Menu">☰</button>
+    </nav>
+  </header>
+
+  <!-- Main content -->
+  <main class="main-container account-edit-page">
+
+    <section class="account-edit-section">
+      <h1 class="page-title">Edit Profile</h1>
+      <p class="page-subtitle">Update your profile information and how you appear in GameForge.</p>
+
+      <form class="account-edit-form">
+
+        <!-- <div class="form-row">
+          <div class="form-field">
+            <label class="form-label">Avatar</label>
+            <div class="account-avatar-edit">
+              <img src="img/default-avatar.png" alt="Current avatar" class="account-avatar" />
+              <button type="button" class="btn account-avatar-button">Change Avatar</button>
+            </div>
+          </div>
+        </div> -->
+
+        <!-- 用户名 -->
+        <div class="form-row">
+          <div class="form-field">
+            <label for="account-name" class="form-label">Display Name</label>
+            <input id="account-name" type="text" class="form-input" placeholder="Enter your display name" value="Player123" />
+          </div>
+        </div>
+
+        <!-- Email -->
+        <div class="form-row">
+          <div class="form-field">
+            <label for="account-email" class="form-label">Email</label>
+            <input id="account-email" type="email" class="form-input" placeholder="player123@example.com" value="player123@example.com" />
+          </div>
+        </div>
+
+        <!-- Role: Player / Developer -->
+        <div class="form-row">
+          <div class="form-field">
+            <label for="account-role" class="form-label">Role</label>
+            <!-- 用 select 让用户选择 Player 或 Developer -->
+            <select id="account-role" class="form-input">
+              <option value="player" selected>Player</option>
+              <option value="developer">Developer</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Description -->
+        <div class="form-row">
+          <div class="form-field">
+            <label for="account-description" class="form-label">Description</label>
+            <textarea id="account-description" class="form-textarea" rows="4" placeholder="Introduce yourself as a player or developer, your favorite genres, or the games you are working on.">
+This is your profile description. You can introduce yourself as a player or developer, list your interests, or share what kind of games you enjoy.
+            </textarea>
+          </div>
+        </div>
+
+        <!-- 操作按钮 -->
+        <div class="form-row form-actions">
+          <button type="button" class="btn">Cancel</button>
+          <button type="submit" class="btn">Save Changes</button>
+        </div>
+
+      </form>
+    </section>
+
+  </main>
+
+</body>
+</html>

@@ -1,0 +1,78 @@
+  <!-- Citation: 
+   Human implementation of homepage with 
+   AI scaffolding at gamecards section-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="author" content="Emma Zhang, Alan Hu, Garvin Wang, Alfred He">
+  <meta name="description" content="GameForge - Game Hub">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GameForge</title>
+  <link rel="icon" type="image/png" href="img/icon.png">
+  <link rel="stylesheet" href="css/gameforge.css">
+</head>
+
+<body>
+  <!-- 顶部导航：固定在页面最上方 -->
+  <header class="nav-bar">
+    <nav class="nav-container">
+      <a class="nav-logo" href="index.html">GameForge</a>
+
+      <div class="nav-links">
+        <a href="filter.html">Filters</a>
+        <a href="publish.html">Publish</a>
+        <a href="account.html">Account</a>
+        <a href="settings.html">Settings</a>
+      </div>
+
+      <!-- 手机端汉堡按钮（现在只是样式，不用 JS） -->
+      <button class="nav-toggle" aria-label="Menu">☰</button>
+    </nav>
+  </header>
+
+  <!-- 主体内容 -->
+  <main class="main-container">
+    <!-- HERO：整块背景图 + 居中 LOGO -->
+    <section class="hero-section">
+      <h1 class="hero-title">GameForge</h1>
+      <p class="hero-subtitle">
+        A curated hub where players discover games and creators share their work.
+      </p>
+    </section>
+
+    <!-- Featured 游戏区 -->
+    <section class="game-section">
+      <h2 class="section-title">Featured Games</h2>
+
+      <div class="game-list">
+        <!-- 模板卡片：整张卡片链接到游戏详情页 -->
+      <article class="game-card">
+        <a href="gamedetail-example.html" class="game-card-link">
+          <div class="game-card-media">
+            <img src="img/halo.jpeg" alt="HALO cover" class="game-card-image">
+          </div>
+
+          <div class="game-card-info">
+            <h3 class="game-card-title">HALO</h3>
+            <p class="game-card-meta">
+              <span class="game-card-rating">♥ 4.8</span>
+              <span class="game-card-tags"> • FPS · Sci-Fi</span>
+            </p>
+          </div>
+        </a>
+
+        <div class="game-card-actions">
+          <button class="btn btn-secondary btn-wishlist" type="button">
+            ★ Wishlist
+          </button>
+
+          <a class="btn btn-download" 
+            href="https://www.xbox.com/games/halo" 
+            target="_blank" 
+            rel="noopener">
+            Download
+          </a>
+        </div>
+      </article>

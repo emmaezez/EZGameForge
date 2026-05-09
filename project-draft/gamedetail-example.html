@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="author" content="Emma Zhang, Alan Hu, Garvin Wang, Alfred He" />
+  <meta name="description" content="GameForge - Game details example page" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>GameForge — Game Details</title>
+
+  <link rel="icon" type="image/png" href="img/icon.png" />
+  <link rel="stylesheet" href="css/gameforge.css" />
+</head>
+
+<body>
+
+  <!-- Human Implemented the navlinks and buttons feature with check -->
+  <!-- Global navigation -->
+  <header class="nav-bar">
+    <nav class="nav-container">
+      <a class="nav-logo" href="index.html">GameForge</a>
+
+      <div class="nav-links">
+        <a href="filter.html">Filters</a>
+        <a href="publish.html">Publish</a>
+        <a href="account.html">Account</a>
+        <a href="settings.html">Settings</a>
+      </div>
+
+      <button class="nav-toggle" aria-label="Menu">☰</button>
+    </nav>
+  </header>
+
+  <!-- AI scaffolding as placeholders -->
+  <!-- Main content -->
+  <main class="main-container game-detail-page">
+
+    <!-- 小屏幕显示按钮，大屏幕隐藏 -->
+    <button class="comments-toggle" aria-label="Open comments and rating">Comments &amp; Rating</button>
+
+    <!-- 左右两栏主体 -->
+    <section class="game-detail-layout">
+
+      <!-- 左侧详情 -->
+      <div class="game-detail-main">
+
+        <!-- 游戏图片区 -->
+        <div class="game-media">
+          <div class="game-media-side">
+            <button type="button" class="media-nav-btn" aria-label="Previous image">‹</button>
+          </div>
+
+          <div class="game-media-main">
+            <img src="img/halo.jpeg" alt="HALO screenshot" class="game-media-image" />
+          </div>
+
+          <div class="game-media-side">
+            <button type="button" class="media-nav-btn" aria-label="Next image">›</button>
+          </div>
+        </div>
+
+        <!-- 游戏文字信息 -->
+        <div class="game-info">
+
+          <h1 class="game-title">HALO</h1>
+
+          <div class="game-meta">
+            <p class="game-tags"> Action · Sci-Fi · FPS</p>
+            <p class="game-author"><span class="meta-label">Developer:</span> Example Studio</p>
+          </div>
+
+          <div class="game-description">
+            <h2 class="section-subtitle">Description</h2>
+            <p>
+              This is a placeholder description for the game. In the real app, this section will
+              introduce the game's story, core mechanics, and what makes it special. Developers can
+              use this area to highlight features like co-op modes, world building, or unique art style.
+            </p>
+          </div>
+
+          <!-- 按钮 -->
+          <div class="game-actions">
+            <button type="button" class="btn btn-wishlist" aria-label="Add this game to your wishlist">♥ Wishlist</button>
+            <a href="#" class="btn btn-download" target="_blank" rel="noopener noreferrer">Download</a>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- 右侧栏：rating + comments -->
+      <div class="game-detail-sidebar">
+
+        <!-- Rating -->
+        <div class="rating-panel">
+          <div class="rating-group">
+            <h2 class="section-subtitle">Average Rating</h2>
+            <p class="rating-stars" aria-label="Average rating: 4.5 out of 5">★★★★☆</p>
+          </div>
+
+          <div class="rating-group">
+            <h2 class="section-subtitle">Your Rating</h2>
+            <p class="rating-stars" aria-label="Your rating: not set">☆☆☆☆☆</p>
+          </div>
+        </div>
+
+        <!-- Comments -->
+        <div class="comments-section">
+          <h2 class="section-subtitle">Comments</h2>
+
+          <div class="comments-list">
+
+            <article class="comment-item">
+              <div class="comment-meta">
+                <span class="comment-author">User123</span>
+                <span class="comment-time">2 days ago</span>
+              </div>
+              <p class="comment-text">
+                Really enjoyed the campaign and the co-op mode. The level design feels tight and engaging.
+              </p>
+            </article>
+
+            <article class="comment-item">
+              <div class="comment-meta">
+                <span class="comment-author">Gamer456</span>
+                <span class="comment-time">1 week ago</span>
+              </div>
+              <p class="comment-text">
+                Multiplayer is fun, but I wish there were more maps. Overall still a great experience!
+              </p>
+            </article>
+
+            <article class="comment-item">
+              <div class="comment-meta">
+                <span class="comment-author">NewPlayer</span>
+                <span class="comment-time">3 weeks ago</span>
+              </div>
+              <p class="comment-text">
+                As a new player, the tutorial helped a lot. The graphics and sound design are impressive.
+              </p>
+            </article>
+
+          </div>
+
+          <!-- 写评论 -->
+          <form class="comment-form">
+            <label for="comment-input" class="comment-label">Write your comment:</label>
+            <textarea id="comment-input" class="comment-input" rows="3" placeholder="Share your thoughts about this game..."></textarea>
+
+            <div class="comment-actions">
+              <button type="button" class="btn">Reply</button>
+              <button type="submit" class="btn">Post</button>
+            </div>
+          </form>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+</body>
+</html>

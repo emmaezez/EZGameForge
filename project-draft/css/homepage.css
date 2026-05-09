@@ -1,0 +1,146 @@
+body {
+  margin: 0;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Inter", Arial, sans-serif;
+  color: #fff;
+  overflow: hidden;
+  position: relative;
+}
+
+.hp-image {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1; 
+}
+
+.overlay {
+  background: rgba(0, 0, 0, 0.55);
+  text-align: center;
+  padding: 3rem 2.5rem;
+  border-radius: 20px;
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.7);
+}
+
+/* Title */
+.game-title {
+  font-size: clamp(2.5rem, 6vw, 5rem);
+  margin: 0 0 1.5rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-shadow: 2px 2px 12px rgba(0, 0, 0, 0.8), 0 0 18px #6ea8ff;
+}
+
+/* Buttons */
+.buttons {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1.2rem;
+}
+
+/* Button styles */
+.btn {
+  text-decoration: none;
+  padding: 0.8rem 1.8rem;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: #fff;
+  font-weight: 600;
+  backdrop-filter: blur(6px);
+  transition: all 0.25s ease-in-out;
+}
+
+.btn:hover {
+  background: rgba(255, 255, 255, 0.25);
+  transform: scale(1.05);
+}
+
+/* Highlighted button */
+/* Primary button */
+.btn.primary {
+  background: linear-gradient(135deg, #6ea8ff, #3dd6c4);
+  color: #08121b;
+  border: none;
+  font-weight: 700;
+  box-shadow: 0 0 18px rgba(110, 168, 255, 0.4);
+}
+
+.btn.primary:hover {
+  box-shadow: 0 0 24px rgba(110, 168, 255, 0.7);
+  transform: scale(1.08);
+}
+
+/* Secondary button */
+.btn.secondary {
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  color: #fff;
+  font-weight: 600;
+}
+
+.btn.secondary:hover {
+  background: rgba(255, 255, 255, 0.28);
+  transform: scale(1.05);
+}
+
+/* Wrap buttons to center them */
+.login-buttons {
+  display: flex;
+  flex-direction: column; /* stack vertically */
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+/* Google Sign-In Button */
+.btn.google {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background-color: #fff;
+  color: #444;
+  border: 1px solid #ccc;
+  font-weight: 600;
+  padding: 0.6rem 1.5rem;
+  border-radius: 8px;
+  cursor: pointer;
+  width: 220px; /* fixed width for alignment */
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.btn.google:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  transform: scale(1.03);
+}
+
+.google-logo {
+  width: 20px;
+  height: 20px;
+}
+
+/* Guest button styling to match Google width */
+.btn.secondary {
+  width: 220px;
+  text-align: center;
+}
+
+/* Mobile adjustments */
+@media (max-width: 600px) {
+  .overlay {
+    padding: 2rem 1.5rem;
+  }
+  .game-title {
+    font-size: 2.2rem;
+  }
+}
