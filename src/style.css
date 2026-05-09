@@ -23,6 +23,7 @@
   --color-bg-app: var(--bg-app);
   --color-bg-surface: var(--bg-surface);
   --color-bg-card: var(--bg-surface);
+  --color-bg-input: var(--bg-app);
   --color-bg-interactive: var(--bg-interactive);
   --color-accent-surface: rgba(124, 111, 247, 0.24);
   --color-border-soft: var(--border-soft);
@@ -30,6 +31,7 @@
   --color-border-subtle: rgba(167, 159, 207, 0.45);
   --color-text-primary: var(--text-main);
   --color-text-secondary: var(--text-muted);
+  --color-text-muted: var(--text-mono);
   --color-text-mono: var(--text-mono);
   --color-accent: var(--accent);
   --color-accent-strong: var(--accent-strong);
@@ -702,33 +704,56 @@ body {
   margin-top: 0.5rem;
 }
 
+.game-detail-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px;
+  padding-bottom: 6rem;
+}
+
 .game-detail-layout {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 20px;
 }
 
 .game-detail-main,
 .game-detail-sidebar {
+  min-width: 0;
+}
+
+.game-detail-sidebar {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 14px;
+}
+
+.game-info-panel {
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
 }
 
 .game-media-image {
   width: 100%;
-  border-radius: 14px;
-  border: 1px solid var(--border-soft);
+  max-height: 300px;
+  object-fit: cover;
+  display: block;
 }
 
 .game-info {
-  padding: 1rem;
+  padding: 20px;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
 }
 
 .game-title {
-  font-size: clamp(1.8rem, 4vw, 2.3rem);
-  letter-spacing: -0.03em;
-  margin-bottom: 0.4rem;
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin-bottom: 10px;
 }
 
 .game-meta,
@@ -739,54 +764,149 @@ body {
   color: var(--text-mono);
 }
 
+.game-author {
+  font-size: 12px;
+  font-family: var(--font-mono);
+  color: var(--color-text-secondary);
+}
+
 .meta-label {
-  color: var(--text-main);
+  color: var(--color-text-muted);
 }
 
 .game-description {
-  color: var(--text-muted);
+  color: var(--color-text-secondary);
+}
+
+.game-description .section-subtitle {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin: 16px 0 6px;
+}
+
+.game-description p {
+  font-size: 13px;
+  color: var(--color-text-secondary);
+  line-height: 1.7;
+}
+
+.game-actions .btn,
+.game-actions .btn-download {
+  padding: 8px 18px;
+  font-size: 13px;
+  border-radius: var(--radius-md);
 }
 
 .community-panel {
-  margin-bottom: 1rem;
+  margin-bottom: 0;
 }
 
 .community-title {
-  margin-bottom: 0.7rem;
+  margin-bottom: 0;
+}
+
+.rating-panel,
+.comments-section {
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--radius-lg);
+  padding: 18px;
+}
+
+.rating-panel .section-subtitle,
+.comments-section .section-subtitle {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-text-primary);
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--color-border-default);
+  margin-bottom: 14px;
+}
+
+.rating-group:first-child .rating-stars {
+  font-size: 28px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.rating-group:last-child .rating-stars {
+  font-size: 11px;
+  color: var(--color-text-muted);
+  margin-bottom: 14px;
 }
 
 .rating-stars {
-  color: var(--gold);
+  color: var(--color-rating);
 }
 
 .rating-form,
 .comment-form {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 8px;
+}
+
+.rating-form .form-input {
+  background: var(--color-bg-input);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-md);
+  color: var(--color-text-primary);
+  font-size: 12px;
+  padding: 8px 12px;
+}
+
+.rating-form .btn {
+  width: 100%;
+  background: var(--color-accent);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-md);
+  padding: 9px;
+  font-size: 13px;
+  font-weight: 500;
+  margin-top: 14px;
 }
 
 .comments-section {
-  padding: 1rem;
+  padding: 18px;
 }
 
 .comment-item {
-  border-bottom: 1px solid var(--border-soft);
-  padding: 0.45rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border-bottom: 1px solid var(--color-border-default);
+  padding: 8px 0;
 }
 
 .comment-meta {
   display: flex;
-  justify-content: space-between;
-  font-size: 0.76rem;
-  color: var(--text-mono);
+  align-items: center;
+  gap: 8px;
 }
 
 .comment-author {
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
-  color: var(--text-main);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--color-text-primary);
+}
+
+.comment-time {
+  margin-left: auto;
+  font-size: 11px;
+  color: var(--color-text-muted);
+}
+
+.comment-text {
+  font-size: 12px;
+  color: var(--color-text-secondary);
+  line-height: 1.6;
 }
 
 .comment-avatar {
@@ -800,6 +920,11 @@ body {
   font-size: 0.7rem;
 }
 
+.comment-form {
+  border-top: 1px solid var(--color-border-default);
+  padding-top: 12px;
+}
+
 .account-profile-card,
 .account-edit-section {
   padding: 1rem 1.1rem;
@@ -809,6 +934,32 @@ body {
 .wishlist-item-description,
 .coming-soon-text {
   color: var(--text-muted);
+}
+
+.comment-input {
+  flex: 1;
+  background: var(--color-bg-input);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-md);
+  padding: 8px 12px;
+  color: var(--color-text-primary);
+  font-size: 12px;
+}
+
+.comment-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.comment-actions .btn {
+  background: var(--color-accent);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-md);
+  padding: 8px 14px;
+  font-size: 12px;
+  font-weight: 500;
 }
 
 .wishlist-list {
@@ -887,17 +1038,19 @@ body {
   }
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 768px) {
   .game-detail-layout {
-    flex-direction: row;
+    grid-template-columns: minmax(0, 1fr) 280px;
   }
+}
 
+@media (min-width: 1024px) {
   .game-detail-main {
-    flex: 3;
+    min-width: 0;
   }
 
   .game-detail-sidebar {
-    flex: 1.35;
+    min-width: 0;
   }
 
   .form-select-row .form-field {

@@ -44,7 +44,7 @@ export default function GameDetail({
   const publishDate = currentGame.publishDate || currentGame.releaseDate || "";
 
   return (
-    <main className="page-container">
+    <main className="page-container game-detail-page">
       {/* <button
         className="comments-toggle"
         aria-label="Open comments and rating"

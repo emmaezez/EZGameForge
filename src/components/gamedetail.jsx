@@ -33,7 +33,7 @@ export default function GameDetailMain({
   const displayPublishDate = publishDate || "N/A";
 
   return (
-    <>
+    <div className="game-info-panel">
       <div className="game-media">
         <div className="game-media-main">
           <img src={imageSrc} alt={imageAlt} className="game-media-image" />
@@ -80,6 +80,6 @@ export default function GameDetailMain({
           </a>
         </div>
       </div>
-    </>
+    </div>
   );
 }
