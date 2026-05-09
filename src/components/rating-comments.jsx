@@ -91,17 +91,16 @@ export default function GameDetailSidebar({
           {commentList.length > 0 ? (
             commentList.map((comment) => (
               <article className="comment-item" key={comment.id}>
-                <div className="comment-meta">
-                  <span className="comment-author">
-                    <span className="comment-avatar" aria-hidden="true">
-                      {getInitial(comment.author)}
-                    </span>
-                    <span>{comment.author}</span>
-                  </span>
-                  <span className="comment-time">{comment.time}</span>
+                <span className="comment-avatar" aria-hidden="true">
+                  {getInitial(comment.author)}
+                </span>
+                <div className="comment-body">
+                  <div className="comment-meta">
+                    <span className="comment-author">{comment.author}</span>
+                    <span className="comment-time">{comment.time}</span>
+                  </div>
+                  <p className="comment-text">{comment.text}</p>
                 </div>
-
-                <p className="comment-text">{comment.text}</p>
               </article>
             ))
           ) : (
@@ -114,20 +113,22 @@ export default function GameDetailSidebar({
             Leave your comment:
           </label>
 
-          <textarea
-            id="comment-input"
-            className="comment-input"
-            rows={3}
-            placeholder="Share your thoughts and feedback"
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-          />
+          <div className="comment-input-row">
+            <textarea
+              id="comment-input"
+              className="comment-input"
+              rows={3}
+              placeholder="Share your thoughts and feedback"
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+            />
 
-          <div className="comment-actions">
-            {/* <button type="button" className="btn">Reply</button> */}
-            <button type="submit" className="btn">
-              Post
-            </button>
+            <div className="comment-actions">
+              {/* <button type="button" className="btn">Reply</button> */}
+              <button type="submit" className="btn">
+                Post
+              </button>
+            </div>
           </div>
         </form>
 
