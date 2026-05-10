@@ -241,6 +241,38 @@ textarea::placeholder { color: var(--text-mono); opacity: 1; font-family: var(--
   border-radius: var(--radius-md);
 }
 
+.publish-success {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 1.25rem;
+  padding: 0.75rem 1rem;
+  background: rgba(90, 154, 32, 0.12);
+  border: 2px solid rgba(90, 154, 32, 0.45);
+  border-radius: var(--radius-md);
+  color: var(--accent);
+  font-size: 0.9rem;
+  font-weight: 600;
+  animation: fade-in-up 0.3s var(--ease-out) both;
+}
+
+.publish-success-link {
+  color: var(--accent);
+  text-decoration: underline;
+  font-weight: 700;
+}
+
+.publish-success-dismiss {
+  margin-left: auto;
+  background: none;
+  border: none;
+  color: var(--accent);
+  cursor: pointer;
+  font-size: 0.85rem;
+  padding: 0 0.2rem;
+  flex-shrink: 0;
+}
+
 /* ─── Shared wooden parchment panel ───────────────────────────────── */
 .content-section,
 .filter-card,

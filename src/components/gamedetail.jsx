@@ -71,14 +71,20 @@ export default function GameDetailMain({
             {isLiked ? <FaHeart color="red" /> : <FaHeart />}
           </button>
 
-          <a
-            href={downloadUrl}
-            className="btn btn-download"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Download
-          </a>
+          {downloadUrl ? (
+            <a
+              href={downloadUrl}
+              className="btn btn-download"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Download
+            </a>
+          ) : (
+            <button type="button" className="btn btn-download" disabled style={{ opacity: 0.4, cursor: "not-allowed" }}>
+              No Download Link
+            </button>
+          )}
         </div>
       </div>
     </div>

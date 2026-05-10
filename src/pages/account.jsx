@@ -173,6 +173,8 @@ export default function Account({ wishlist, removeFromWishlist }) {
 
   const [myGames, setMyGames] = useState([]);
   const [publishedStats, setPublishedStats] = useState({});
+  const [myComments, setMyComments] = useState([]);
+  const [myRatings, setMyRatings] = useState([]);
 
   useEffect(() => {
     let cancelled = false;
@@ -289,6 +291,42 @@ export default function Account({ wishlist, removeFromWishlist }) {
     };
   }, [myGames]);
 
+  // Load this user's comments and ratings from Firestore
+  useEffect(() => {
+    let cancelled = false;
+    if (!user?.uid) {
+      setMyComments([]);
+      setMyRatings([]);
+      return;
+    }
+
+    const load = async () => {
+      try {
+        const [commentsSnap, ratingsSnap] = await Promise.all([
+          getDocs(query(collection(db, "comments"), where("userId", "==", user.uid))),
+          getDocs(query(collection(db, "ratings"),  where("userId", "==", user.uid))),
+        ]);
+        if (cancelled) return;
+
+        const comments = commentsSnap.docs
+          .map((d) => ({ id: d.id, ...d.data() }))
+          .sort((a, b) => (b.createdAt?.toMillis?.() ?? 0) - (a.createdAt?.toMillis?.() ?? 0));
+
+        const ratings = ratingsSnap.docs
+          .map((d) => ({ id: d.id, ...d.data() }))
+          .sort((a, b) => (b.createdAt?.toMillis?.() ?? 0) - (a.createdAt?.toMillis?.() ?? 0));
+
+        setMyComments(comments);
+        setMyRatings(ratings);
+      } catch {
+        if (!cancelled) { setMyComments([]); setMyRatings([]); }
+      }
+    };
+
+    load();
+    return () => { cancelled = true; };
+  }, [user?.uid]);
+
   // human driven logic for mapping wishlist components like adding or removing items
   return (
     <main>
@@ -363,29 +401,85 @@ export default function Account({ wishlist, removeFromWishlist }) {
                     "";
 
                   return (
-                    <li key={game.id} className="account-published-item">
-                      <img
-                        src={thumb}
-                        alt={game.imageAlt || title}
-                        className="account-published-thumb"
-                      />
-                      <div className="account-published-main">
-                        <p className="account-published-title">{title}</p>
-                        {when ? (
-                          <p className="account-published-date">{when}</p>
-                        ) : null}
-                        {meta ? (
-                          <p className="account-published-tags">{meta}</p>
-                        ) : null}
-                        <p className="account-published-stats" aria-live="polite">
-                          Average rating: {formatAverageRating(stats)} ·
-                          Ratings: {stats?.ratingsCount ?? 0} · Comments:{" "}
-                          {stats?.commentCount ?? 0}
-                        </p>
-                      </div>
+                    <li key={game.id}>
+                      <Link
+                        to={`/gamedetail/${game.id}`}
+                        className="account-published-item"
+                        style={{ textDecoration: "none", display: "flex", alignItems: "center", gap: "1rem" }}
+                      >
+                        <img
+                          src={thumb}
+                          alt={game.imageAlt || title}
+                          className="account-published-thumb"
+                        />
+                        <div className="account-published-main">
+                          <p className="account-published-title">{title}</p>
+                          {when ? (
+                            <p className="account-published-date">{when}</p>
+                          ) : null}
+                          {meta ? (
+                            <p className="account-published-tags">{meta}</p>
+                          ) : null}
+                          <p className="account-published-stats" aria-live="polite">
+                            Average rating: {formatAverageRating(stats)} ·
+                            Ratings: {stats?.ratingsCount ?? 0} · Comments:{" "}
+                            {stats?.commentCount ?? 0}
+                          </p>
+                        </div>
+                      </Link>
                     </li>
                   );
                 })}
+              </ul>
+            )}
+          </section>
+        )}
+
+        {/* --- My Comments & Ratings Section --- */}
+        {user && (
+          <section className="account-published-section">
+            <h2 className="section-title">My Comments &amp; Ratings</h2>
+
+            {myComments.length === 0 && myRatings.length === 0 ? (
+              <p className="account-published-empty">You haven&apos;t commented or rated any games yet.</p>
+            ) : (
+              <ul className="account-published-list">
+                {/* Ratings */}
+                {myRatings.map((r) => (
+                  <li key={r.id}>
+                    <Link
+                      to={`/gamedetail/${r.gameId}`}
+                      className="account-published-item"
+                      style={{ textDecoration: "none", display: "flex", alignItems: "center", gap: "1rem" }}
+                    >
+                      <div className="account-published-main">
+                        <p className="account-published-title">⭐ {r.gameTitle || r.gameId}</p>
+                        <p className="account-published-tags">Your rating: {r.value} / 5</p>
+                        {r.createdAt?.toDate && (
+                          <p className="account-published-date">{r.createdAt.toDate().toLocaleDateString()}</p>
+                        )}
+                      </div>
+                    </Link>
+                  </li>
+                ))}
+                {/* Comments */}
+                {myComments.map((c) => (
+                  <li key={c.id}>
+                    <Link
+                      to={`/gamedetail/${c.gameId}`}
+                      className="account-published-item"
+                      style={{ textDecoration: "none", display: "flex", alignItems: "center", gap: "1rem" }}
+                    >
+                      <div className="account-published-main">
+                        <p className="account-published-title">💬 {c.gameTitle || c.gameId}</p>
+                        <p className="account-published-tags" style={{ fontStyle: "italic" }}>&ldquo;{c.text}&rdquo;</p>
+                        {c.createdAt?.toDate && (
+                          <p className="account-published-date">{c.createdAt.toDate().toLocaleDateString()}</p>
+                        )}
+                      </div>
+                    </Link>
+                  </li>
+                ))}
               </ul>
             )}
           </section>

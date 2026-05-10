@@ -1,6 +1,13 @@
 import { useState } from "react";
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import { db } from "../firebase";
+import { useAuth } from "../context/AuthContext.jsx";
 
 export default function Publish({ onPublishGame }) {
+  const { user } = useAuth();
+  const [published, setPublished] = useState(false);
+  const [publishError, setPublishError] = useState("");
+
   const [gameName, setGameName] = useState("");
   const [month, setMonth] = useState("");
   const [day, setDay] = useState("");
@@ -28,16 +35,15 @@ export default function Publish({ onPublishGame }) {
 
   function handleSubmit(event) {
     event.preventDefault();
+    setPublishError("");
 
     let publishDate = "";
     if (year && month && day) {
-      publishDate = `${year.padStart(4, "0")}-${month.padStart(
-        2,
-        "0"
-      )}-${day.padStart(2, "0")}`;
+      publishDate = `${year.padStart(4, "0")}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
     }
 
     const newGame = {
+      title: gameName,
       name: gameName,
       description: desc,
       website: url,
@@ -52,10 +58,26 @@ export default function Publish({ onPublishGame }) {
       imageSrc,
     };
 
+    if (!user?.uid) {
+      setPublishError("You must be signed in to publish a game.");
+      return;
+    }
+
+    // Fire Firestore save in the background — don't block the UI
+    addDoc(collection(db, "games"), {
+      ...newGame,
+      publisherUid: user.uid,
+      createdAt: serverTimestamp(),
+    }).catch((err) => {
+      console.error("Failed to save to Firestore", err);
+    });
+
     if (onPublishGame) {
       onPublishGame(newGame);
     }
 
+    // Show success and reset form immediately
+    setPublished(true);
     setGameName("");
     setMonth("");
     setDay("");
@@ -102,6 +124,23 @@ export default function Publish({ onPublishGame }) {
           Fill in the details below and publish to GameForge.
         </p>
       </section>
+
+      {published && (
+        <div className="publish-success" role="alert">
+          <span>✓</span> Game published successfully! View it under{" "}
+          <a href="/account" className="publish-success-link">My Account → My Published Games</a>.
+          <button
+            type="button"
+            className="publish-success-dismiss"
+            onClick={() => setPublished(false)}
+            aria-label="Dismiss"
+          >✕</button>
+        </div>
+      )}
+
+      {publishError && (
+        <p className="error" role="alert">{publishError}</p>
+      )}
 
       <section className="content-section">
         <form className="publish-form" onSubmit={handleSubmit}>

@@ -1,7 +1,10 @@
+import { useEffect, useState } from "react";
 import GameDetailSidebar from "../components/rating-comments.jsx";
 import GameDetailMain from "../components/gamedetail.jsx";
 import game from "../data/game.js";
 import { useParams } from "react-router";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "../firebase";
 
 export default function GameDetail({
   wishlist,
@@ -10,10 +13,34 @@ export default function GameDetail({
   publishedGames = []
 }) {
   const { id } = useParams();
+  const [firestoreGame, setFirestoreGame] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const allGames = [...game, ...publishedGames];
+  const localGame = allGames.find((g) => g.id === id);
 
-  const currentGame = allGames.find((g) => g.id === id) || allGames[0] || game[0];
+  // If not found locally, try Firestore (covers user-published games)
+  useEffect(() => {
+    if (localGame || !id) return;
+    setLoading(true);
+    setFirestoreGame(null);
+    getDoc(doc(db, "games", id))
+      .then((snap) => {
+        if (snap.exists()) setFirestoreGame({ id: snap.id, ...snap.data() });
+      })
+      .catch(() => {})
+      .finally(() => setLoading(false));
+  }, [id, localGame]);
+
+  // While fetching from Firestore, don't render anything yet
+  if (!localGame && loading) {
+    return <main className="page-container game-detail-page"><p className="page-subtitle">Loading…</p></main>;
+  }
+
+  const currentGame = localGame || firestoreGame || null;
+  if (!currentGame) {
+    return <main className="page-container game-detail-page"><p className="page-subtitle">Game not found.</p></main>;
+  }
 
   const tagsText =
     currentGame.tagsText ||
@@ -31,7 +58,8 @@ export default function GameDetail({
 
   const developer = currentGame.developer || "Independent Creator";
 
-  const downloadUrl = currentGame.downloadUrl || currentGame.website || "#";
+  // null means no URL provided — the component will hide the button
+  const downloadUrl = currentGame.downloadUrl || currentGame.website || null;
 
   const averageRating =
     typeof currentGame.averageRating === "number" ? currentGame.averageRating : null;
@@ -76,6 +104,8 @@ export default function GameDetail({
             averageRating={averageRating}
             userRating={userRating}
             comments={comments}
+            gameId={currentGame.id}
+            gameTitle={currentGame.title || currentGame.name}
           />
         </div>
       </section>
