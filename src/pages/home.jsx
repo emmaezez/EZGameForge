@@ -1,3 +1,4 @@
+import { Link } from "react-router";
 import GameCard from "../components/gamecard";
 import game from "../data/game.js";
 
@@ -18,6 +19,10 @@ export default function Home({
           <p className="hero-subtitle">
             A curated hub where players discover games and creators share their work.
           </p>
+          <div className="hero-actions">
+            <Link to="/filter" className="btn">Browse Games</Link>
+            <Link to="/publish" className="btn btn-secondary">Publish a Game</Link>
+          </div>
         </div>
       </section>
 

@@ -99,7 +99,7 @@ export default function Publish({ onPublishGame }) {
       <section>
         <h1 className="page-title">Publish a Game</h1>
         <p className="page-subtitle">
-          Fill in the details below and publish to PlayForge.
+          Fill in the details below and publish to GameForge.
         </p>
       </section>
 

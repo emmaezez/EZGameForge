@@ -11,8 +11,15 @@
 // firebase.google.com/docs/auth/web/google-signin
 
 import { useEffect, useState } from "react";
-import { Link } from "react-router";
-import { collection, getDocs, query, where } from "firebase/firestore";
+import { Link, useLocation } from "react-router";
+import {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  query,
+  where,
+} from "firebase/firestore";
 
 import WishlistItem from "../components/wishlist-item.jsx";
 import { useAuth } from "../context/AuthContext.jsx";
@@ -50,12 +57,152 @@ function getPublishedThumb(game) {
   );
 }
 
+/**
+ * Mirrors GameDetail data: parent game fields `averageRating` + inline `comments[]`,
+ * with optional Firestore subcollections `comments` / `ratings` when used for scale-out.
+ */
+function ratingValueFromDoc(d) {
+  if (typeof d.rating === "number") return d.rating;
+  if (typeof d.value === "number") return d.value;
+  if (typeof d.score === "number") return d.score;
+  if (typeof d.stars === "number") return d.stars;
+  return null;
+}
+
+async function fetchGameCommunityStats(gameId, gameFallback) {
+  let averageRating =
+    typeof gameFallback.averageRating === "number"
+      ? gameFallback.averageRating
+      : null;
+  let ratingsCount =
+    typeof gameFallback.ratingCount === "number"
+      ? gameFallback.ratingCount
+      : typeof gameFallback.ratingsCount === "number"
+        ? gameFallback.ratingsCount
+        : null;
+  let commentCount =
+    typeof gameFallback.commentCount === "number"
+      ? gameFallback.commentCount
+      : typeof gameFallback.commentsCount === "number"
+        ? gameFallback.commentsCount
+        : null;
+
+  try {
+    const gameSnap = await getDoc(doc(db, "games", gameId));
+    if (gameSnap.exists()) {
+      const data = gameSnap.data();
+      if (typeof data.averageRating === "number") {
+        averageRating = data.averageRating;
+      }
+      if (typeof data.ratingCount === "number") {
+        ratingsCount = data.ratingCount;
+      } else if (typeof data.ratingsCount === "number") {
+        ratingsCount = data.ratingsCount;
+      }
+      if (typeof data.commentCount === "number") {
+        commentCount = data.commentCount;
+      } else if (typeof data.commentsCount === "number") {
+        commentCount = data.commentsCount;
+      } else if (Array.isArray(data.comments)) {
+        commentCount = data.comments.length;
+      }
+    }
+  } catch {
+    /* Firestore unavailable or denied */
+  }
+
+  try {
+    const commentsSnap = await getDocs(
+      collection(db, "games", gameId, "comments")
+    );
+    if (commentsSnap.size > 0) {
+      commentCount = commentsSnap.size;
+    }
+  } catch {
+    /* Missing subcollection or rules */
+  }
+
+  try {
+    const ratingsSnap = await getDocs(
+      collection(db, "games", gameId, "ratings")
+    );
+    const vals = [];
+    ratingsSnap.forEach((d) => {
+      const v = ratingValueFromDoc(d.data());
+      if (v != null && !Number.isNaN(v)) vals.push(v);
+    });
+    if (vals.length > 0) {
+      ratingsCount = vals.length;
+      if (averageRating == null || Number.isNaN(averageRating)) {
+        averageRating = vals.reduce((a, b) => a + b, 0) / vals.length;
+      }
+    }
+  } catch {
+    /* Missing subcollection or rules */
+  }
+
+  if (commentCount == null && Array.isArray(gameFallback.comments)) {
+    commentCount = gameFallback.comments.length;
+  }
+
+  const rc = ratingsCount ?? 0;
+  const cc = commentCount ?? 0;
+  const avg =
+    typeof averageRating === "number" && !Number.isNaN(averageRating)
+      ? Math.round(averageRating * 10) / 10
+      : null;
+
+  return { averageRating: avg, ratingsCount: rc, commentCount: cc };
+}
+
+function formatAverageRating(stats) {
+  const a = stats?.averageRating;
+  if (typeof a === "number" && !Number.isNaN(a)) {
+    return a.toFixed(1);
+  }
+  return "N/A";
+}
+
 // This component expects 'wishlist' data and a 'removeFromWishlist' function 
 // to be passed in as props from a parent component that manages that state.
 export default function Account({ wishlist, removeFromWishlist }) {
   const { user } = useAuth(); // This uses the firebase logic utilized with help from template
+  const location = useLocation();
+
+  const [accountRoleLabel, setAccountRoleLabel] = useState("Player");
 
   const [myGames, setMyGames] = useState([]);
+  const [publishedStats, setPublishedStats] = useState({});
+
+  useEffect(() => {
+    let cancelled = false;
+
+    if (!user?.uid) {
+      Promise.resolve().then(() => {
+        if (!cancelled) setAccountRoleLabel("Player");
+      });
+      return () => {
+        cancelled = true;
+      };
+    }
+
+    const loadRole = async () => {
+      try {
+        const snap = await getDoc(doc(db, "users", user.uid));
+        if (cancelled) return;
+        const data = snap.exists() ? snap.data() : {};
+        setAccountRoleLabel(data.role === "developer" ? "Developer" : "Player");
+      } catch {
+        if (!cancelled) setAccountRoleLabel("Player");
+      }
+    };
+
+    loadRole();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [user?.uid, location.pathname]);
 
   useEffect(() => {
     let cancelled = false;
@@ -106,6 +253,42 @@ export default function Account({ wishlist, removeFromWishlist }) {
     };
   }, [user?.uid]);
 
+  useEffect(() => {
+    let cancelled = false;
+
+    if (!myGames.length) {
+      Promise.resolve().then(() => {
+        if (!cancelled) setPublishedStats({});
+      });
+      return () => {
+        cancelled = true;
+      };
+    }
+
+    const loadStats = async () => {
+      try {
+        const pairs = await Promise.all(
+          myGames.map(async (game) => {
+            const stats = await fetchGameCommunityStats(game.id, game);
+            return [game.id, stats];
+          })
+        );
+        if (!cancelled) {
+          setPublishedStats(Object.fromEntries(pairs));
+        }
+      } catch (error) {
+        console.error("Failed to fetch rating/comment summaries", error);
+        if (!cancelled) setPublishedStats({});
+      }
+    };
+
+    loadStats();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [myGames]);
+
   // human driven logic for mapping wishlist components like adding or removing items
   return (
     <main>
@@ -119,11 +302,18 @@ export default function Account({ wishlist, removeFromWishlist }) {
             // Display profile if user is signed in
             <div className="account-profile-card">
               <div className="account-info">
-                <p className="account-name">{user.displayName ?? "Anonymous Player"}</p>
-                <p className="account-email">{user.email}</p>
+                <div className="account-header">
+                  <div className="account-avatar" aria-hidden="true">
+                    {(user.displayName ?? user.email ?? "?")[0].toUpperCase()}
+                  </div>
+                  <div className="account-name-row">
+                    <p className="account-name">{user.displayName ?? "Anonymous Player"}</p>
+                    <p className="account-email">{user.email}</p>
+                  </div>
+                </div>
 
                 <p className="account-role">
-                  <span className="account-label">Role:</span> Player
+                  <span className="account-label">Role:</span> {accountRoleLabel}
                 </p>
 
                 <p className="account-description">
@@ -161,6 +351,7 @@ export default function Account({ wishlist, removeFromWishlist }) {
                 {myGames.map((game) => {
                   const thumb = getPublishedThumb(game);
                   const title = getPublishedTitle(game);
+                  const stats = publishedStats[game.id];
                   const meta = buildPublishMeta(game);
                   const when =
                     game.publishDate ||
@@ -186,6 +377,11 @@ export default function Account({ wishlist, removeFromWishlist }) {
                         {meta ? (
                           <p className="account-published-tags">{meta}</p>
                         ) : null}
+                        <p className="account-published-stats" aria-live="polite">
+                          Average rating: {formatAverageRating(stats)} ·
+                          Ratings: {stats?.ratingsCount ?? 0} · Comments:{" "}
+                          {stats?.commentCount ?? 0}
+                        </p>
                       </div>
                     </li>
                   );
