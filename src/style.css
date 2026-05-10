@@ -1088,6 +1088,7 @@ textarea::placeholder { color: var(--text-mono); opacity: 1; font-family: var(--
 .game-actions { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 18px; }
 .game-actions .btn,
 .game-actions .btn-download { padding: 8px 20px; font-size: 0.85rem; }
+.game-actions .btn-wishlist  { padding: 0; width: 36px; height: 36px; }
 
 /* ─── Community / Rating / Comments ───────────────────────────────── */
 .community-panel { margin-bottom: 0; }
