@@ -63,11 +63,12 @@ export default function GameDetailMain({
         <div className="game-actions">
           <button
             type="button"
-            className="btn btn-wishlist"
+            className={`btn btn-secondary btn-wishlist ${isLiked ? "btn-wishlist-active" : ""}`}
             onClick={handleWishlist}
-            aria-label={`Add to wishlist`}
+            aria-label={isLiked ? "Remove from wishlist" : "Add to wishlist"}
+            title={isLiked ? "Remove from wishlist" : "Add to wishlist"}
           >
-            {isLiked ? <FaHeart color="red" /> : <FaHeart />} Wishlist
+            {isLiked ? <FaHeart color="red" /> : <FaHeart />}
           </button>
 
           <a
