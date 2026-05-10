@@ -3,15 +3,15 @@ import React, { useState } from "react";
 export default function GameDetailSidebar({
   averageRating,
   userRating: initialUserRating,
-  comments = []
+  comments = [],
 }) {
   // AI generated //
   const [commentList, setCommentList] = useState(comments);
   const [input, setInput] = useState("");
 
-   const [userRating, setUserRating] = useState(initialUserRating ?? "");
-   const [ratingInput, setRatingInput] = useState("");
- 
+  const [userRating, setUserRating] = useState(initialUserRating ?? "");
+  const [ratingInput, setRatingInput] = useState("");
+
   const handlePost = (e) => {
     e.preventDefault();
     if (input.trim() === "") return;
@@ -43,17 +43,23 @@ export default function GameDetailSidebar({
     setRatingInput("");
   };
 
+  const getInitial = (name) => {
+    const clean = String(name || "G").trim();
+    return clean ? clean.charAt(0).toUpperCase() : "G";
+  };
+
   return (
     <>
-      <div className="rating-panel">
+      <div className="community-panel rating-panel">
+        <h2 className="section-subtitle community-title">Community</h2>
 
         <div className="rating-group">
-          <h2 className="section-subtitle">Average Rating</h2>
+          <h3 className="section-subtitle">Average Rating</h3>
           <p className="rating-stars">{averageRating ?? "N/A"}</p>
         </div>
 
         <div className="rating-group">
-          <h2 className="section-subtitle">Your Rating</h2>
+          <h3 className="section-subtitle">Your Rating</h3>
 
           <p className="rating-stars">{userRating !== "" ? userRating : "Not rated yet"}</p>
 
@@ -79,18 +85,22 @@ export default function GameDetailSidebar({
       </div>
 
       <div className="comments-section">
-        <h2 className="section-subtitle">Comments</h2>
+        <h3 className="section-subtitle">Comments</h3>
 
         <div className="comments-list">
           {commentList.length > 0 ? (
-            commentList.map(comment => (
+            commentList.map((comment) => (
               <article className="comment-item" key={comment.id}>
-                <div className="comment-meta">
-                  <span className="comment-author">{comment.author}</span>
-                  <span className="comment-time">{comment.time}</span>
+                <span className="comment-avatar" aria-hidden="true">
+                  {getInitial(comment.author)}
+                </span>
+                <div className="comment-body">
+                  <div className="comment-meta">
+                    <span className="comment-author">{comment.author}</span>
+                    <span className="comment-time">{comment.time}</span>
+                  </div>
+                  <p className="comment-text">{comment.text}</p>
                 </div>
-
-                <p className="comment-text">{comment.text}</p>
               </article>
             ))
           ) : (
@@ -103,17 +113,22 @@ export default function GameDetailSidebar({
             Leave your comment:
           </label>
 
-          <textarea id="comment-input" 
-          className="comment-input" 
-          rows={3} 
-          placeholder="Share your thoughts and feedback"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}>
-          </textarea>
+          <div className="comment-input-row">
+            <textarea
+              id="comment-input"
+              className="comment-input"
+              rows={3}
+              placeholder="Share your thoughts and feedback"
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+            />
 
-          <div className="comment-actions">
-            {/* <button type="button" className="btn">Reply</button> */}
-            <button type="submit" className="btn">Post</button>
+            <div className="comment-actions">
+              {/* <button type="button" className="btn">Reply</button> */}
+              <button type="submit" className="btn">
+                Post
+              </button>
+            </div>
           </div>
         </form>
 

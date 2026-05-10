@@ -1,5 +1,5 @@
 import { Link } from "react-router";
-import { FaHeart, FaDownload } from "react-icons/fa";
+import { FaHeart } from "react-icons/fa";
 
 export default function GameCard({
   title,
@@ -19,6 +19,10 @@ export default function GameCard({
 
   const displayRating = ratingText || "N/A";
   const displayTags = tagsText || "";
+  const tagItems = displayTags
+    .split(/,|·/)
+    .map((tag) => tag.trim())
+    .filter(Boolean);
 
   // AI-inspired
   const liked = Array.isArray(wishlist) && wishlist.some((g) => g.id === id);
@@ -46,28 +50,29 @@ export default function GameCard({
           <h3 className="game-card-title">{title}</h3>
 
           <p className="game-card-meta">
-          </p>
-
-          <p className="game-card-meta">
             {displayRating && (
               <span className="game-card-rating">{displayRating}</span>
             )}
           </p>
-          <p>
-            {displayTags && (
-              <span className="game-card-tags">{displayTags}</span>
-            )}
-          </p>
+          <div className="game-card-meta game-card-tags-wrap">
+            {tagItems.map((tag) => (
+              <span key={tag} className="game-card-tags">
+                {tag}
+              </span>
+            ))}
+          </div>
         </div>
       </Link>
 
       <div className="game-card-actions">
         <button
-          className="btn btn-secondary btn-wishlist"
+          className={`btn btn-secondary btn-wishlist ${liked ? "btn-wishlist-active" : ""}`}
           type="button"
           onClick={toggleWishlist}
+          aria-label={liked ? "Remove from wishlist" : "Add to wishlist"}
+          title={liked ? "Remove from wishlist" : "Add to wishlist"}
         >
-          {liked ? <FaHeart color="red" /> : <FaHeart />} Wishlist
+          {liked ? <FaHeart color="red" /> : <FaHeart />}
         </button>
 
         <a
